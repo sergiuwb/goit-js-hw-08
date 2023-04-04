@@ -1,31 +1,35 @@
-/*
- * Добавь библиотеку SimpleLightbox как зависимость проекта используя npm(ссылка на CDN из твоей прошлой работы больше не нужна).
- *Используй свой JavaScript код из предыдущей домашней работы, но выполни рефакторинг с учетом того, что библиотека была установлена через npm (синтаксис import/export).
- */
+
 
  import SimpleLightbox from "simplelightbox";
  import "simplelightbox/dist/simple-lightbox.min.css";
 // Add imports above this line
 import { galleryItems } from './gallery-items';
-// Change code below this line
+import SimpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
 
 const galleryContainer = document.querySelector('.gallery');
-const blockMarkup = createImagesGallery(galleryItems);
-galleryContainer.insertAdjacentHTML('afterbegin', blockMarkup);
+const galleryCardsSet = createGallery(galleryItems);
 
-function createImagesGallery(item) {
+function createGallery(galleryItems) {
   return galleryItems
-    .map(
-      ({ preview, original, description }) =>
-        `<a class="gallery__item" href="${original}">
-  <img class="gallery__image" src="${preview}" alt="${description}" />
-</a>`
-    )
+    .map(({ original, preview, description }) => {
+      return `<div class="gallery__item" style="border-radius: 4px; background: transparent; box-shadow: none;">
+  <a class="gallery__item" href="${original}" style= "box-shadow: none;" style="border-radius: 4px;">
+  <img class="gallery__image" src="${preview}" alt="${description}" style="border: 1px solid transparent;
+  border-radius: 4px;
+  padding: 5px; background: rgba(255, 255, 255, 0.3); box-shadow: 0px 1px 3px 0px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 2px 1px -1px rgb(0 0 0 / 12%);"/>
+</a>
+</div>`;
+    })
     .join('');
 }
 
-const lighbox = new SimpleLightbox('.gallery a', {
+galleryContainer.insertAdjacentHTML('beforeend', galleryCardsSet);
+
+const lightbox = new SimpleLightbox('.gallery a', {
+  caption: true,
   captionsData: 'alt',
   captionDelay: 250,
-  captionPosition: 'bottom',
 });
+
+console.log(galleryItems);
